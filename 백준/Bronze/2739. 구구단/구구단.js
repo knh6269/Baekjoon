@@ -1,8 +1,8 @@
-let input = require('fs').readFileSync('/dev/stdin').toString();
+let input = require('fs').readFileSync('/dev/stdin').toString().trim();
 
 const solution = () => {
    for (let i = 1; i <= 9; i++) {
-    console.log(`${input[0]} * ${i} = ${input[0] * i}`);
+    console.log(`${input} * ${i} = ${input * i}`);
    }
 }
 
