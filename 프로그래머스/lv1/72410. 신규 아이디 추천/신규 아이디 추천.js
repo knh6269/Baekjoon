@@ -3,7 +3,7 @@ function solution(new_id) {
     new_id = new_id.toLowerCase();
     
     //2단계
-    new_id = new_id.match(/[0-9a-zA-Z._-]/g);
+    new_id = new_id.match(/[0-9a-z._-]/g);
     
     //3단계
     for (let i = 0; i < new_id.length; i++) {
