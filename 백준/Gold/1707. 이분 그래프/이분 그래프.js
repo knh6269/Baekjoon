@@ -1,6 +1,7 @@
 let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
 const many = Number(input.shift());
 input = input.map((item) => item.split(' ').map(Number));
+const answer = new Array(many).fill('YES');
 
 for (let i = 0; i < many; i++) {
     const [a, b] = input.shift().map(Number);
@@ -53,12 +54,12 @@ for (let i = 0; i < many; i++) {
                 let next = graph[j][k];
     
                 if (visited[j] === visited[next]) {
-                    return console.log('NO');
+                    answer[i] = 'NO';
+                    return ;
                 }
             }
         }
-        return console.log('YES');
     }
     isAns();
 }
-
+console.log(answer.join('\n'));
