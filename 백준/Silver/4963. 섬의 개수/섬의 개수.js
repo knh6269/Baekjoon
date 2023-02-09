@@ -11,39 +11,27 @@ while (input.length) {
     
     const bfs = (x, y) => {
         const start = [[x, y]];
-
+        const xMover = [0, 0, -1, -1, -1, 1, 1, 1];
+        const yMover = [-1, 1, -1, 0, 1, -1, 0, 1];
+        
         while (start.length) {
             const [dx, dy] = start.shift();
+            
             if (!visited[dx][dy]) {
                 visited[dx][dy] = 1;
-                board[dx][dy] = 0;
             } else {
                 continue;
             }
 
-            if (dx < col - 1 && board[dx + 1][dy]) {
-                start.push([dx + 1, dy]);
-            }
-            if (dy < row - 1  && dx < col - 1 && board[dx + 1][dy + 1]) {
-                start.push([dx + 1, dy + 1]);
-            }
-            if (dx < col - 1 && dy > 0 &&  board[dx + 1][dy - 1]) {
-                start.push([dx + 1, dy - 1]);
-            }
-            if (dx > 0 && board[dx - 1][dy]) {
-                start.push([dx - 1, dy]);
-            }
-            if (dy > 0 &&  dx > 0 && board[dx - 1][dy - 1]) {
-                start.push([dx - 1, dy - 1]);
-            }
-            if (dy < row - 1  && dx > 0 && board[dx - 1][dy + 1]) {
-                start.push([dx - 1, dy + 1]);
-            }
-            if (dy > 0 && board[dx][dy - 1]) {
-                start.push([dx, dy - 1]);
-            }
-            if (dy < row - 1  && board[dx][dy + 1]) {
-                start.push([dx, dy + 1]);
+            for (let i = 0; i < xMover.length; i++) {
+                const xMove = dx + xMover[i];
+                const yMove = dy + yMover[i];
+
+                if (xMove >= 0 && xMove < col && yMove >=0 && yMove < row) {
+                    if (board[xMove][yMove]) {
+                        start.push([xMove, yMove]);
+                    }
+                }
             }
             
         }
