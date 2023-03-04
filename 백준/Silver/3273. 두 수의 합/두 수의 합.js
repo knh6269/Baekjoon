@@ -16,9 +16,11 @@ while (start < end) {
     if (sum > target) {
         end --;
     }
+    
     if (sum < target) {
         start ++;
     }
+    
     if (sum === target) {
         answer++;
         start = start + 1;
