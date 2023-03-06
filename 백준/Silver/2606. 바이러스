@@ -1,0 +1,28 @@
+let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
+const many = Number(input.shift());
+const array = input.map((item) => item.split(' ').map(Number));
+const graph = [...new Array(many + 1)].map(() => []);
+const visited = [...new Array(many + 1)].fill(0);
+
+array.map(([from, to]) => {
+    graph[from].push(to);
+    graph[to].push(from);
+})
+
+const bfs = (start) => {
+    const queue = [start];
+    const array = [];
+
+    while (queue.length) {
+        const node = queue.shift();
+
+        if (!visited[node]) {
+            visited[node] = 1;
+            array.push(node);
+            queue.push(...graph[node]);
+        }
+    }
+    console.log(array.length - 1);
+}
+
+bfs(1);
