@@ -1,67 +1,58 @@
-let fs = require('fs');
-let input = fs.readFileSync('/dev/stdin').toString().split('\n');
+let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
+const [length, target] = input.map(Number)
+//배열
+let array = [...new Array(length)].map((item) => new Array(length).fill(0))
 
-let readlineIdx = 0;
+//현재 내 위치
+let location = [0, 0]
 
-const readInput = () => input[readlineIdx++];
+//숫자
+let num = length ** 2
 
-let dx = [0, 1, 0, -1];
-let dy = [1, 0, -1, 0];
-let answerLoca = { X: 0, Y: 2 };
-function solution(table, t) {
-  let cnt = t * t;
-  let X = 0;
-  let Y = 0;
-  let nowDir = 0;
-  let moveCnt = t;
-  while (true) {
-    if (nowDir === 1) {
-      moveCnt--;
+let start = 0;
+
+const check = (array) => {
+    for (let i = 0; i < array.length; i++) {
+        for (let j = 0; j < array[0].length; j++) {
+            if (array[i][j] === target) {
+                console.log(i + 1, j + 1);
+                return ;
+            }
+        }
     }
-    if (nowDir === 3) {
-      moveCnt--;
-    }
-
-    for (let i = 0; i < moveCnt; ++i) {
-      X = X + dx[nowDir];
-      Y = Y + dy[nowDir];
-      table[X][Y] = cnt--;
-      if (table[X][Y] === findNum) {
-        answerLoca = { X, Y };
-      }
-    }
-
-
-    if (cnt === 0) {
-      return;
-    }
-    nowDir = (nowDir + 1) % 4;
-  }
 }
 
-let findNum;
-function main() {
-  let t = readInput();
-  t = parseInt(t, 10);
-  findNum = parseInt(readInput(), 10);
-  let table = new Array(t + 1);
-  for (let i = 0; i < t + 1; ++i) {
-    table[i] = new Array(t).fill(0);
-  }
-  solution(table, t);
-  for (let y = 1; y < t + 1; ++y) {
-    let string = "";
-    for (let x = 0; x < t; ++x) {
-      if (x === t - 1) {
-        string += table[x][y];
-        break;
-      }
-      string += table[x][y] + ' ';
-    }
-    console.log(string);
-  }
-  console.log(answerLoca.Y, answerLoca.X + 1);
 
+while (num > 1) {
+    for (let i = start; i < length - start - 1; i++) {
+        array[location[0]][location[1]] = num--
+        if (location[0] === length - 1) continue; 
+        location[0] += 1
+    }
+    
+    for (let i = start; i < length - start - 1; i++) {
+        array[location[0]][location[1]] = num--
+        if (location[1] === length - 1) continue; 
+        location[1] += 1
+    }
+
+    for (let i = length - start - 1; i > start; i--) {
+        array[location[0]][location[1]] = num--
+        if (location[0] === 0) continue; 
+        location[0] -= 1
+    }
+
+    for (let i = length - start - 1; i > start; i--) {
+        array[location[0]][location[1]] = num--
+        if (location[1] === 0) continue; 
+        location[1] -= 1
+    }
+
+    start ++
+    location = [start, start]
 }
 
-main();
+array[Math.floor(length/2)][Math.floor(length/2)] = 1
+console.log(array.map((item) => item.join(' ')).join('\n'))
+
+check(array)
