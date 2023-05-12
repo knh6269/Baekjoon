@@ -1,40 +1,28 @@
-let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
-const [a, b] = input.shift().split(' ').map(Number);
-input = input.map((item) => item.split(' ').map(Number));
-let graph = [...new Array(a + 1)].map(() => []);
-const visited = new Array(a + 1).fill(false);
-let count = 0;
+let  [[nodeAmount], ...lines] = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n').map((line) => line.trim().split(" ").map(Number));;
 
-input.map(([a, b]) => {
-    graph[a].push(b);
-    graph[b].push(a);
+const solution = (nodes, lines) => {
+  const visitied = [...Array(nodes + 1)].fill(false);
+  let sets = 0;
+  let nodehash = [...new Array(nodes + 1)].map(() => []);
+  
+  lines.map(([a, b]) => {
+    nodehash[a].push(b);
+    nodehash[b].push(a);
 })
 
-const dfs = (start) => {
-    const stack = [start];
+  for (let i = 1; i <= nodes; i++) {
 
-    while (stack.length) {
-        const node = stack.pop();
-
-        if (visited[node] == false) {
-            stack.push(...graph[node]);
-            visited[node] = true;
-        }
+    if (visitied[i]) continue;
+    const stack = [];
+    stack.push(...nodehash[i]);
+    while (stack.length > 0) {
+      let curr = stack.pop();
+      if (visitied[curr]) continue;
+      visitied[curr] = true;
+      stack.push(...nodehash[curr]);
     }
-
-}
-
-for (let i = 1; i <= a; i++) {
-    if (visited[i] == false) {
-        dfs(i);
-        count++;
-    }
-}
-
-console.log(count);
-
-
-
-
-
-
+    sets++;
+  }
+  console.log(sets);
+};
+solution(nodeAmount, lines);
