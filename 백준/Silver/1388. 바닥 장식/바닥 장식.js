@@ -3,11 +3,11 @@ let [N, ...input] = require('fs').readFileSync('/dev/stdin').toString().trim().s
 const visited = [... new Array(input.length)].map(() => Array(input[0].length).fill(0));
 let count = 0;
 
-const bfs = (row, col) => {
+const dfs = (row, col) => {
   const queue = [[row, col]];
 
     while (queue.length) {
-      const [x,y] = queue.shift();
+      const [x,y] = queue.pop();
       
       if (visited[x][y]) continue;
 
@@ -24,7 +24,7 @@ const bfs = (row, col) => {
 for (let i = 0; i < input.length; i++) {
   for (let j = 0; j < input[0].length; j++) {
     if (!visited[i][j]) {
-      bfs(i,j);
+      dfs(i,j);
       count++;
     }
   }
