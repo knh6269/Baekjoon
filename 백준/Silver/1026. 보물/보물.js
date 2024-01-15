@@ -1,14 +1,12 @@
 let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
-input.shift()
-let [A, B] = input.map((item) => item.split(' ').map(Number))
+const N = Number(input.shift()); 
 
-A = A.sort((a, b) => a - b)
-B = B.sort((a, b) => b - a)
+const [a, b] = input.map((item) => item.split(' ').map(Number).sort((a,b) => a - b));
 
-let sum = 0
+let sum = 0;
 
-for (let i = 0; i < A.length; i++) {
-    sum += A[i] * B[i]
-}
+for (let i = 0; i < N; i++) {
+    sum += a[i] * b[N - i - 1] ;   
+} 
 
-console.log(sum)
+console.log(sum);
