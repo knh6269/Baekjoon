@@ -1,33 +1,39 @@
-let [N, ...input] = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
+let  input  = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
 
-const visited = [... new Array(input.length)].map(() => Array(input[0].length).fill(0));
-let count = 0;
+const [N, M] = input.shift().split(' ').map(Number);
+  
+ 
+const visited = [...new Array(N)].map(() => new Array(M).fill(0));
 
+let answer = 0; 
+ 
 const dfs = (row, col) => {
-  const stack = [[row, col]];
+    const stack = [[row, col]];
 
     while (stack.length) {
-      const [x,y] = stack.pop();
-      
-      if (visited[x][y]) continue;
+        const [nodeRow, nodeCol] = stack.pop();
 
-      visited[x][y] = 1;
-      if (y + 1 < input[0].length && input[x][y] === '-' && input[x][y + 1] === '-') {
-        stack.push([x, y+ 1]);
-      } 
-      if (x + 1 < input.length && input[x][y] === '|' && input[x + 1][y] === '|') {
-        stack.push([x + 1, y]);
-      } 
+        if (visited[nodeRow][nodeCol]) continue;
+
+        visited[nodeRow][nodeCol] = 1;
+ 
+             if (nodeCol + 1 < M && input[nodeRow][nodeCol] === '-' && input[nodeRow][nodeCol + 1] === '-') { 
+                stack.push([nodeRow, nodeCol + 1]);
+             } 
+ 
+            if (nodeRow + 1 < N && input[nodeRow][nodeCol] === '|' && input[nodeRow + 1][nodeCol] === '|') {
+                stack.push([nodeRow + 1, nodeCol]);
+            } 
     }
 }
 
 for (let i = 0; i < input.length; i++) {
-  for (let j = 0; j < input[0].length; j++) {
-    if (!visited[i][j]) {
-      dfs(i,j);
-      count++;
+    for (let j = 0; j < input[0].length; j++) {
+      if (!visited[i][j]) {
+        dfs(i,j);
+        answer++;
+      }
     }
   }
-}
-
-console.log(count);
+  
+console.log(answer);
